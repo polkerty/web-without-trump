@@ -52,8 +52,8 @@
     const blacklist = ["SCRIPT", "STYLE", "HEAD", "TITLE", "META", "SVG"];
     const parentBlacklist = ["SCRIPT", "STYLE"];
     const nodeHandler = node => {
-        if (node.innerHTML && node.innerHTML.includes('usr_censored')) return;
         let tot = 1;
+        if (node.innerHTML && node.innerHTML.includes('usr_censored')) return tot;
         let textVal = node.innerText || node.textContent || '';
         if (node._cacheText === textVal) return tot;
         node._cacheText = textVal;
@@ -76,12 +76,19 @@
     nodeHandler(document.body);
     document.body.style.visibility = 'visible';
     // Check for future updates
+    let total_nodes_checked = 0;
+    const MAX_CHECKS = 2500;
     const observer = new MutationObserver(mutations => {
+        if ( total_nodes_checked > MAX_CHECKS ) {
+            observer.disconnect();
+            return;
+        }
         let tot = 0;
         mutations.forEach(m => {
             [...m.addedNodes].filter(x => !(x.farthestViewportElement && x.farthestViewportElement.nodeName === 'SVG')).forEach(x => tot += nodeHandler(x));
         })
         console.log("Checked " + tot + " elements");
+        total_nodes_checked += tot;
     })
     observer.observe(document.documentElement, {
         childList: true,
