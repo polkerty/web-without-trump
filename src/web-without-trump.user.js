@@ -13,12 +13,12 @@
 // ==/UserScript==
 (async () => {
     'use strict';
+    //debugger;
     const remove = [
-        // You can customize this list if you'd like!
         /trump/i,
-        /biden/i,
         /republican/i,
         /democrat/i,
+        /biden/i,
         /election/i,
         /white house/i,
         /president/i,
@@ -52,7 +52,7 @@
     const blacklist = ["SCRIPT", "STYLE", "HEAD", "TITLE", "META", "SVG"];
     const parentBlacklist = ["SCRIPT", "STYLE"];
     const nodeHandler = node => {
-        if (node.innerHTML.includes('usr_censored')) return;
+        if (node.innerHTML && node.innerHTML.includes('usr_censored')) return;
         let tot = 1;
         let textVal = node.innerText || node.textContent || '';
         if (node._cacheText === textVal) return tot;
