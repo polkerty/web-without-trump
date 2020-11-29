@@ -7,15 +7,18 @@
 // @match      *://*/*
 // @grant        none
 // @run-at       document-ready
+// @downloadUrl  https://github.com/polkerty/web-without-trump/raw/main/src/web-without-trump.user.js
+// @updateUrl  https://github.com/polkerty/web-without-trump/raw/main/src/web-without-trump.user.js
+
 // ==/UserScript==
 (async () => {
     'use strict';
-    //debugger;
     const remove = [
+        // You can customize this list if you'd like!
         /trump/i,
+        /biden/i,
         /republican/i,
         /democrat/i,
-        /biden/i,
         /election/i,
         /white house/i,
         /president/i,
